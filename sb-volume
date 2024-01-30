@@ -1,0 +1,7 @@
+#!/bin/bash
+
+volume_info=$(pactl list sinks | grep 'Volume:' | head -n 1)
+volume=$(echo "$volume_info" | awk '{print $5}' | tr -d '%')
+
+echo " $volume%"
+
