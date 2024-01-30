@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Mendapatkan nilai kecerahan saat ini menggunakan brightnessctl
+brightness=$(brightnessctl -q g)
+
+# Mendapatkan nilai maksimal kecerahan menggunakan brightnessctl
+max_brightness=$(brightnessctl -q m)
+
+# Mengonversi ke persentase
+brightness_percent=$(printf "%.0f" "$(echo "scale=2; ($brightness / $max_brightness) * 100" | bc)")
+
+# Menampilkan nilai kecerahan dalam persentase
+echo " $brightness_percent%"
+
