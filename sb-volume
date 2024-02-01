@@ -1,7 +1,16 @@
 #!/bin/bash
 
-volume_info=$(pactl list sinks | grep 'Volume:' | head -n 1)
-volume=$(echo "$volume_info" | awk '{print $5}' | tr -d '%')
+# Mendapatkan informasi volume dan status mute menggunakan amixer
+volume_info=$(amixer get Master | grep -oE "[0-9]+%|\[on\]|\[off\]")
 
-echo " $volume%"
+# Mengambil nilai volume dan status mute dari output
+volume=$(echo "$volume_info" | awk 'NR==1{print $1}' | tr -d '%')
+mute_status=$(echo "$volume_info" | awk 'NR==2{print $1}')
+
+# Menampilkan ikon sesuai dengan status mute
+if [ "$mute_status" == "[off]" ]; then
+  echo "󰝟"
+else
+  echo " $volume%"
+fi
 
